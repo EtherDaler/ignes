@@ -1,0 +1,37 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block title %}Список запросов на запись{% endblock %}
+
+{% block content %}
+	<style>
+		.message{
+			background-color: lawngreen;
+			border: 1px solid green;
+			border-radius: 12px;
+			padding: 10px;
+			color: #fafafa;
+			font-size: 15px
+		}
+	</style>
+
+	{% for message in messages %}
+	<div class="message">
+		<span>{{message}}</span>
+	</div>
+	{% endfor %}
+
+    {% for appointment in appointments_list %}
+		<ul class="list-group mt-2 mb-2 mr-4 ml-4 thin-border-gradient">
+			<li class="list-group-item"><b>Запрос от:</b> {{ appointment.full_name }}</li>
+			<li class="list-group-item"><b>Телефон:</b> {{ appointment.phone }}</li>
+            <li class="list-group-item"><b>Услуга:</b> {{ appointment.service }}</li>
+			<li class="list-group-item"><b>Адрес:</b> {{ appointment.felial.city }}, {{ appointment.felial.adress }}</li>
+            <li class="list-group-item"><b>Дата запроса:</b> {{ appointment.date }}</li>
+            <li class="list-group-item"><a href="{% url 'change_appointment' id=appointment.id %}" class="btn btn-primary">Назначить запись</a></li>
+		</ul>
+	{% endfor %}
+	<div style="display:flex; justify-content: center; margin-bottom: 5px">
+		{% load bootstrap4 %}
+		{% bootstrap_pagination appointments_list pages_to_show=5 %}
+	</div>
+
+{% endblock %}

@@ -1,0 +1,118 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>Результаты анализов {{ analys.person_full_name }}</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+</head>
+<body>
+
+	<style>
+		table {
+			border: 1px solid black;
+			width: 100%;
+		}
+		/* границы ячеек первого ряда таблицы */
+		th {
+			border: 1px solid black;
+		}
+		/* границы ячеек тела таблицы */
+		td {
+			border: 1px solid black;
+		}
+
+		.qr-block {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap
+		}
+	</style>
+	<div class="container marketing">
+		<img style="position: relative; margin-bottom: -40px; z-index: 2;" src="{{ info.photo.url }}" alt="Logo" width="100" />
+		<h1 style="text-align: center">"{{ info.name }}" Лаборатория</h1>
+		<table>
+			<tr>
+				<td colspan="3">ИНН-{{ info.inn }}</td>
+				<td colspan="3">Лицензия: {{ info.license }}</td>
+			</tr>
+			<tr>
+				<td colspan="6">Свидетельство министерства юстиций Республики Таджикистан: {{ info.min_of_just }}</td>
+			</tr>
+			<tr>
+				<td colspan="2">Ному насаб (Ф.И.О.) full name</td>
+				<td colspan="4">{{ analys.person_full_name }}</td>
+			</tr>
+			<tr>
+				<td colspan="2">Шаҳрвандӣ (гражданство) citizenship</td>
+				<td colspan="4">{{ analys.person_citizenship }}</td>
+			</tr>
+			<tr>
+				<td>Соли тавалуд (дата рождения) birth day</td>
+				<td>{{ analys.person_date_of_birth }}</td>
+
+				<td>Санаи супурдани (дата сдачи) date of delivery</td>
+				<td>{{ analys.analys_datetime }}</td>
+
+				<td>санаи тайер намудани (дата подготовки) date of preparation</td>
+				{% if analys.analys_finish_datetime is not None %}
+				<td>{{ analys.analys_finish_datetime }}</td>
+				{% else %}
+				<td>Неизвестно</td>
+				{% endif %}
+			</tr>
+		</table>
+		<h1 style="text-align: center">Лабораторное исследование "{{ analys.type.name }}"</h1>
+		<table>
+			<tr>
+				<th>Тест (Test)</th>
+				<th>Натиҷа (результат) result</th>
+			</tr>
+			{% for res in results %}
+			<tr>
+				<td>{{ res.field }}</td>
+				<td>{{ res.value }}</td>
+			</tr>
+			{% endfor %}
+		</table>
+		<br /><br />
+		<table>
+			<tr>
+				<td>Усули омӯзиши (метод исследования) research method</td>
+				{% if analys.method is not None %}
+				<td>{{ analys.method }}</td>
+				{% else %}
+				<td>Неуказано</td>
+				{% endif %}
+			</tr>
+			<tr>
+				<td>Эъзох (примечания) notes</td>
+				{% if analys.comments is not None %}
+				<td>{{ analys.comments }}</td>
+				{% else %}
+				<td>Неуказано</td>
+				{% endif %}
+			</tr>
+		</table>
+		<br /><br />
+		<div class="qr-block">
+			<div>
+				<p><span>Самимияти мумкин аст, ки натиҷаҳои тафтиш дар qr-код: </span></p>
+				<p><span>Подлинность результатов можно проверить по qr-коду: </span></p>
+				<p><span>The authenticity of the results can be checked by a QR code: </span></p>
+			</div>
+			<div>
+				<img src="{{ analys.qr_code.url }}" alt="QR code" width="100" />
+			</div>
+		</div>
+		<p>Рамзи шумо барои дидани натиҷаҳо (Ваш код для просмотра результатов) Your code to view the results: {{ analys.code }}</p>
+		<br /><br />
+		<div style="font-size: 10px">
+			<p>{{ info.adress }}, тел: {{ info.phone }}, email: {{ info.email }}</p>
+			<p>Данный результат не является шаблонным</p>
+		</div>
+		<hr style="padding:2px; background: black; color: black" />
+	</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block title %}Список готовых анализов{% endblock %}
+
+{% block content %}
+	<style>
+		.message{
+			background-color: lawngreen;
+			border: 1px solid green;
+			border-radius: 12px;
+			padding: 10px;
+			color: #fafafa;
+			font-size: 15px
+		}
+	</style>
+
+	{% for message in messages %}
+	<div class="message">
+		<span>{{message}}</span>
+	</div>
+	{% endfor %}
+
+    {% for analys in analys_list %}
+		<ul class="list-group mt-2 mb-2 mr-4 ml-4 thin-border-gradient">
+			<li class="list-group-item"><b>Анализы на</b> {{ analys.type.name }}</li>
+			<li class="list-group-item"><b>Принадлежат:</b> {{ analys.person_full_name }}</li>
+            <li class="list-group-item"><b>Дата рождения:</b> {{ analys.person_date_of_birth }}</li>
+			<li class="list-group-item"><b>Сданы:</b> {{ analys.analys_datetime }}</li>
+            <li class="list-group-item"><b>Подготовлены:</b> {{ analys.analys_finish_datetime }}</li>
+            <li class="list-group-item"><a href="{% url 'analys_info' slug=analys.slug id=analys.id %}" target="_blank" class="btn btn-primary">Посмотреть результаты</a></li>
+		</ul>
+	{% endfor %}
+	<div style="display:flex; justify-content: center; margin-bottom: 5px">
+		{% load bootstrap4 %}
+		{% bootstrap_pagination analys_list pages_to_show=5 %}
+	</div>
+
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block title %}Вопросы{% endblock %}
+
+{% block content %}
+	<style>
+		.message{
+			background-color: lawngreen;
+			border: 1px solid green;
+			border-radius: 12px;
+			padding: 10px;
+			color: #fafafa;
+			font-size: 15px
+		}
+	</style>
+
+	{% for message in messages %}
+	<div class="message">
+		<span>{{message}}</span>
+	</div>
+	{% endfor %}
+
+    {% for question in questions %}
+		<ul class="list-group mt-2 mb-2 mr-4 ml-4 thin-border-gradient">
+			<li class="list-group-item"><b>От:</b> {{ question.name }} <span style="float:right; color: grey">{{ question.date }}</span> <p>{{ question.email }}</p></li>
+            <li class="list-group-item"><b>Тема:</b> {{ question.subject }}</li>
+			<li class="list-group-item">{{ question.message }}</li>
+		</ul>
+	{% endfor %}
+	<div style="display:flex; justify-content: center; margin-bottom: 5px">
+		{% load bootstrap4 %}
+		{% bootstrap_pagination questions pages_to_show=5 %}
+	</div>
+
+{% endblock %}

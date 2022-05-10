@@ -1,0 +1,58 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block title %}Список записей на прием{% endblock %}
+
+{% block content %}
+	<style>
+		.message{
+			background-color: lawngreen;
+			border: 1px solid green;
+			border-radius: 12px;
+			padding: 10px;
+			color: #fafafa;
+			font-size: 15px
+		}
+	</style>
+
+	{% for message in messages %}
+	<div class="message">
+		<span>{{message}}</span>
+	</div>
+	{% endfor %}
+
+    {% for appointment in appointments_list %}
+        <!-- Modal -->
+        <div class="modal fade" id="appointmentModal{{ appointment.id }}" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="appointmentModalLabel">Подтвердите ваши действия</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Вы действительно хотите отменить запись на {{ appointment.full_name }} ?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{% url 'delete_appointment' id=appointment.id %}" class="btn btn-danger">Да</a>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		<ul class="list-group mt-2 mb-2 mr-4 ml-4 thin-border-gradient">
+			<li class="list-group-item"><b>Запись:</b> {{ appointment.full_name }}</li>
+			<li class="list-group-item"><b>Телефон:</b> {{ appointment.phone }}</li>
+            <li class="list-group-item"><b>Услуга:</b> {{ appointment.service }}</li>
+			<li class="list-group-item"><b>Адрес:</b> {{ appointment.felial.city }}, {{ appointment.felial.adress }}</li>
+            <li class="list-group-item"><b>Дата приема:</b> {{ appointment.appointment_datetime }}</li>
+            <li class="list-group-item"><a href="#" target="_blank" class="btn btn-danger" data-toggle="modal" data-target="#appointmentModal{{appointment.id}}">Отменить прием</a></li>
+		</ul>
+	{% endfor %}
+	<div style="display:flex; justify-content: center; margin-bottom: 5px">
+		{% load bootstrap4 %}
+		{% bootstrap_pagination appointments_list pages_to_show=5 %}
+	</div>
+
+{% endblock %}

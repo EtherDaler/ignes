@@ -1,0 +1,249 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+{% load static %}
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" rel="stylesheet">
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/open-iconic-bootstrap.min.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/animate.css' %}">
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/owl.carousel.min.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/owl.theme.default.min.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/magnific-popup.css' %}">
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/aos.css' %}">
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/ionicons.min.css' %}">
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/bootstrap-datepicker.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/jquery.timepicker.css' %}">
+
+
+	<link rel="stylesheet" href="{% static 'mainApp/css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/icomoon.css' %}">
+	<link rel="stylesheet" href="{% static 'mainApp/css/style.css' %}">
+	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/45/8/intl/ru_ALL/common.js"></script>
+	<script type="text/javascript" charset="UTF-8" src="https://maps.googleapis.com/maps-api-v3/api/js/45/8/intl/ru_ALL/util.js"></script>
+</head>
+
+<body data-aos-easing="slide" data-aos-duration="800" data-aos-delay="0">
+
+	<!--HEADER-->
+	<header>
+		<div class="py-md-5 py-4 border-bottom">
+			<div class="container">
+				<div class="row no-gutters d-flex align-items-start align-items-center px-3 px-md-0">
+					<div class="col-md-4 order-md-2 mb-2 mb-md-0 align-items-center text-center">
+						<a class="navbar-brand" href="/">{{ info.name }}<span style="margin-top: 5px">Стамотология</span></a>
+					</div>
+					<div class="col-md-4 order-md-1 d-flex topper mb-md-0 mb-2 align-items-center text-md-right">
+						<div class="icon d-flex justify-content-center align-items-center order-md-last">
+							<span class="icon-map"></span>
+						</div>
+						<div class="pr-md-4 pl-md-0 pl-3 text">
+							<a href="tel:{{ info.phone }}"><p class="con"><span>Звоните</span> <span>{{ info.phone }}</span></p></a>
+							<p class="con">{{ info.adress }}</p>
+						</div>
+					</div>
+					<div class="col-md-4 order-md-3 d-flex topper mb-md-0 align-items-center">
+						<div class="icon d-flex justify-content-center align-items-center"><span class="icon-paper-plane"></span></div>
+						<div class="text pl-3 pl-md-3">
+							<p class="hr"><span>Мы рабоаем</span></p>
+							<p class="time"><span>{{ info.week_days_opened }}:</span> <span>{{ info.opened_from }} - {{ info.opened_until }}</span> {{ info.week_days_off }}: Выходной</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark ftco-navbar-light" id="ftco-navbar">
+			<div class="container d-flex align-items-center">
+				<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="oi oi-menu"></span> Menu
+				</button>
+				<div class="navbar-collapse collapse" id="ftco-nav">
+					<ul class="navbar-nav m-auto">
+						<li class="nav-item {{ link_main }}"><a href="/" class="nav-link pl-0">Главная</a></li>
+						{% if request.user.is_authenticated %}
+						{% if request.user.is_staff or request.user.is_admin %}
+						<li class="nav-item {{ link_ready}}"><a href="{% url 'analys_ready_list' %}" class="nav-link">Готовые анализы</a></li>
+						<li class="nav-item {{ link_wait }}"><a href="{% url 'analys_not_ready_list' %}" class="nav-link">Анализы в ожидании</a></li>
+						<li class="nav-item {{ link_create }}"><a href="{% url 'create_analys' %}" class="nav-link">Создать анализы</a></li>
+						<li class="nav-item {{ link_requests }}"><a href="{% url 'request_appointments' %}" class="nav-link">Запросы на запись</a></li>
+						<li class="nav-item {{ link_writes }}"><a href="{% url 'appointments_list' %}" class="nav-link">Записи на прием</a></li>
+						<li class="nav-item {{ link_questions }}"><a href="{% url 'questions' %}" class="nav-link">Вопросы</a></li>
+						{% endif %}
+						{% else %}
+						<li class="nav-item {{ link_about }}"><a href="{% url 'about_us' %}" class="nav-link">О нас</a></li>
+						<li class="nav-item {{ link_crew }}"><a href="{% url 'crew_list' %}" class="nav-link">Персонал</a></li>
+						<li class="nav-item {{ link_services }}"><a href="{% url 'services' %}" class="nav-link">Услуги</a></li>
+						<li class="nav-item {{ link_prices }}"><a href="{% url 'price_list' %}" class="nav-link">Цены</a></li>
+						<li class="nav-item {{ link_blogs }}"><a href="{% url 'blogs_list' %}" class="nav-link">Блог</a></li>
+						<li class="nav-item {{ link_results }}"><a href="{% url 'get_analys_from_code' %}" class="nav-link">Результаты</a></li>
+						<li class="nav-item {{ link_contacts }}"><a href="{% url 'contacts' %}" class="nav-link">Контакты</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+
+	<!--MAIN-->
+	<main>
+		{% block content %}{% endblock %}
+	</main>
+
+	<!--Modal-->
+
+	<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Авторизация для персонала</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form method="post" action="{% url 'login' %}">
+						{% csrf_token %}
+						<div class="form-group">
+							<label for="recipient-name" class="col-form-label">Логин:</label>
+							<input type="text" class="form-control" id="username" name="username">
+						</div>
+						<div class="form-group">
+							<label for="message-text" class="col-form-label">Пароль:</label>
+							<input type="password" class="form-control" id="password" name="password">
+						</div>
+						<button type="submit" class="btn btn-primary">Войти</button>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--Modal End-->
+	<!--FOOTER-->
+	<footer class="ftco-footer ftco-bg-dark ftco-section">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-5">
+						<h2 class="ftco-heading-2 logo">{{ info.name }}</h2>
+						<p>{{ info.description | truncatewords:15 }}</p>
+					</div>
+					<div class="ftco-footer-widget mb-5">
+						<h2 class="ftco-heading-2">Остались вопросы?</h2>
+						<div class="block-23 mb-3">
+							<ul>
+								<li><span class="icon icon-map-marker"></span><span class="text">{{ info.adress }}</span></li>
+								<li><a href="tel:{{ info.phone }}"><span class="icon icon-phone"></span><span class="text">{{ info.phone }}0</span></a></li>
+								<li><a href="mailto:{{ info.email }}"><span class="icon icon-envelope"></span><span class="text">{{ info.email }}</span></a></li>
+							</ul>
+						</div>
+
+						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
+							{% if info.facebook != ' or info.facebook is not None' %}
+							<li class="ftco-animate fadeInUp ftco-animated"><a href="{{ info.facebook }}" target="_blank"><span class="icon-facebook"></span></a></li>
+							{% endif %}
+							{% if info.instagram != ' or info.instagram is not None' %}
+							<li class="ftco-animate fadeInUp ftco-animated"><a href="{{ info.instagram }}" target="_blank"><span class="icon-instagram"></span></a></li>
+							{% endif %}
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-5 ml-md-4">
+						<h2 class="ftco-heading-2">Ссылки</h2>
+						<ul class="list-unstyled">
+							<li><a href="/"><span class="ion-ios-arrow-round-forward mr-2"></span>Главная</a></li>
+							<li><a href="{% url 'about_us' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>О нас</a></li>
+							<li><a href="{% url 'services' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>Услуги</a></li>
+							<li><a href="{% url 'contacts' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>Контакты</a></li>
+							{% if request.user.is_authenticated %}
+							<li><a href="{% url 'logout' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>Выйти</a></li>
+							{% else %}
+							<li><a href="#" data-toggle="modal" data-target="#exampleModal"><span class="ion-ios-arrow-round-forward mr-2"></span>Войти</a></li>
+							{% endif %}
+						</ul>
+					</div>
+					<div class="ftco-footer-widget mb-5 ml-md-4">
+						<h2 class="ftco-heading-2">Услуги</h2>
+						<ul class="list-unstyled">
+							{% for service in last_services %}
+								<li><a href="{% url 'services' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>{{ service.name }}</a></li>
+							{% endfor %}
+							<li><a href="{% url 'services' %}"><span class="ion-ios-arrow-round-forward mr-2"></span>...</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-5">
+						<h2 class="ftco-heading-2">Недавние новости</h2>
+						{% for blog in recent_blogs %}
+						<div class="block-21 mb-4 d-flex">
+							<a class="blog-img mr-4" style="background-image: url({{ blog.logo.url }});"></a>
+							<div class="text">
+								<h3 class="heading"><a href="{% url 'blog' slug=blog.slug %}">{{ blog.title }}</a></h3>
+								<div class="meta">
+									<div><a href="{% url 'blog' slug=blog.slug %}"><span class="icon-calendar"></span> {{ blog.date }}</a></div>
+									<div><a href="{% url 'blog' slug=blog.slug %}"><span class="icon-person"></span> {{ blog.author.username }}</a></div>
+									<div><a href="{% url 'blog' slug=blog.slug %}"><span class="icon-eye"></span> {{ blog.watch }}</a></div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-5">
+						<h2 class="ftco-heading-2">Узнавайте все первым!</h2>
+						<form action="#" class="subscribe-form">
+							<div class="form-group">
+								<input type="text" class="form-control mb-2 text-center" placeholder="Укажите email">
+								<input type="submit" value="Подписаться" class="form-control submit px-3">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+
+					<p>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright ©
+						<script>document.write(new Date().getFullYear());</script> Все права защищены <a href="https://www.instagram.com/daler_hojimatov/" target="_blank">Ignes</a> | <i class="icon-heart" aria-hidden="true"></i> Сайт сделан <a href="https://ignes.tj" target="_blank">Daler Hojimatov</a>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div id="ftco-loader" class="fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"></circle><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"></circle></svg></div>
+	<script src="{% static 'mainApp/js/jquery.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery-migrate-3.0.1.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/popper.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.easing.1.3.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.waypoints.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.stellar.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/aos.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.animateNumber.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/bootstrap-datepicker.js' %}"></script>
+	<script src="{% static 'mainApp/js/jquery.timepicker.min.js' %}"></script>
+	<script src="{% static 'mainApp/js/scrollax.min.js' %}"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="{% static 'mainApp/js/google-map.js' %}"></script>
+	<script src="{% static 'mainApp/js/main.js' %}"></script>
+</body>
+</html>

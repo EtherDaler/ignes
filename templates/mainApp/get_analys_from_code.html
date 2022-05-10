@@ -1,0 +1,64 @@
+{% extends 'mainApp/wrapper.html' %}
+
+{% load static %}
+
+{% load mytags %}
+
+{% block title %}{{ info.name }} - Узнать результаты анализов{% endblock %}
+
+{% block content %}
+	<style>
+		.message {
+			background-color: #708090;
+			border: 1px solid #CD5C5C;
+			border-radius: 12px;
+			padding: 10px;
+			color: #fafafa;
+			font-size: 15px
+		}
+	</style>
+
+	<section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'mainApp/images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+		<div class="overlay"></div>
+		<div class="container">
+			<div class="row no-gutters slider-text align-items-center justify-content-center">
+				<div class="col-md-9 ftco-animate text-center">
+					<h1 class="mb-2 bread">Результаты</h1>
+					<p class="breadcrumbs"><span class="mr-2"><a href="/">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Результаты <i class="ion-ios-arrow-forward"></i></span></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	{% for message in messages %}
+		<div class="message">
+			<span>{{message}}</span>
+		</div>
+	{% endfor %}
+
+	<section class="section-conten padding-y" style="min-height:84vh">
+		<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+			<div class="card-body">
+				<h4 class="card-title mb-4">Найти свои результаты</h4>
+				<form method="post">
+					{% csrf_token %}
+					<div class="form-group">
+						<label for="full_name">Ф.И.О.:</label>
+						<input type="text" name="full_name" id="full_name" value="" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="date_of_birth">Дата рождения:</label>
+						<input type="date" name="date_of_birth" id="date_of_birth" value="" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<label for="code">Код:</label>
+						<input type="text" name="code" id="code" value="" class="form-control" required>
+					</div>
+					<div class="form-group">
+						<input type="submit" value="Найти" class="btn btn-primary">
+					</div>
+				</form>
+			</div>
+		</div>
+	</section>
+{% endblock %}

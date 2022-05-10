@@ -1,0 +1,66 @@
+{% extends 'mainApp/wrapper.html' %}
+{% block title %}Создание анализов{% endblock %}
+
+{% block content %}
+<style>
+	.my-form{
+		border-radius: 12px;
+		margin-bottom: 10px
+	}
+	.my-form:focus{
+		border: 1px solid aqua
+	}
+	.my-label{
+		font-size: 18px;
+	}
+	.my-dropdown {
+		width: 100%;
+		height: 52px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	.message{
+		background-color: lawngreen;
+		border: 1px solid green;
+		border-radius: 12px;
+		padding: 10px;
+		color: #fafafa;
+		font-size: 15px
+	}
+</style>
+
+<div class="container marketing">
+	{% for message in messages %}
+	<div class="message">
+		<span>{{message}}</span>
+	</div>
+	{% endfor %}
+	<form method="post">
+		<div>
+			<h1 style="text-align: center">Создание анализов</h1>
+		</div>
+		<div style="border: 1px solid silver; padding: 10px; border-radius: 12px">
+			{% csrf_token %}
+			<label class="my-label" for="full_name">Ф.И.О.:</label>
+			<input type="text" id="full_name" name="full_name" class="form-control my-form" value="" placeholder="Иванов Иван Иванович" />
+
+			<label class="my-label" for="citizenship">Гражданство:</label>
+			<input type="text" id="citizenship" name="citizenship" class="form-control my-form" value="" placeholder="Таджикистан" />
+
+			<label class="my-label" for="date_of_birth">Дата рождения:</label>
+			<input type="date" id="date_of_birth" name="date_of_birth" class="form-control my-form" value="" placeholder="Таджикистан" />
+
+			<label class="my-label" for="type">Вид анализов:</label>
+			<select id="type" name="type" class="my-form my-dropdown">
+				{% for type in types %}
+				<option value="{{ type.id }}">{{ type.name }}</option>
+				{% endfor %}
+			</select>
+
+			<div>
+				<input type="submit" style="width: 100%" class="btn btn-success" value="Создать" />
+			</div>
+		</div>
+	</form>
+</div>
+
+{% endblock %}

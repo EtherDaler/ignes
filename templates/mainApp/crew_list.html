@@ -1,0 +1,52 @@
+{% extends 'mainApp/wrapper.html' %}
+
+{% load static %}
+
+{% block title %}{{ info.name }} - Персонал{% endblock %}
+
+{% block content %}
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'mainApp/images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-2 bread">Персонал</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="/">Главная <i class="ion-ios-arrow-forward"></i></a></span> <span>Персонал <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section">
+		<div class="container">
+			<div class="row">
+                {% for member in crew %}
+                    <div class="col-md-6 col-lg-3 ftco-animate">
+                        <div class="staff">
+                            <a href="{% url 'crew_info' id=member.id %}"><div class="img-wrap d-flex align-items-stretch">
+                                <div class="img align-self-stretch" style="background-image: url({{ member.photo.url }});"></div>
+                            </div></a>
+                            <div class="text pt-3 text-center">
+                                <a href="{% url 'crew_info' id=member.id %}"><h3>{{ member.full_name }}</h3></a>
+                                <span class="position mb-2">{{ member.position }}</span>
+                                <div class="faded">
+                                    <p>{{ member.about | truncatewords:15 }}</p>
+                                    <ul class="ftco-social text-center">
+                                        {% if member.facebook != '' or member.facebook is not None %}
+                                            <li class="ftco-animate"><a href="{{ member.facebook }}" class="d-flex align-items-center justify-content-center"><span class="icon-facebook"></span></a></li>
+                                        {% endif %}
+                                        {% if member.instagram != '' or member.instagram is not None %}
+                                            <li class="ftco-animate"><a href="{{ member.instagram }}" class="d-flex align-items-center justify-content-center"><span class="icon-instagram"></span></a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

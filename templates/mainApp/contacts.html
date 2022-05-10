@@ -1,0 +1,119 @@
+{% extends 'mainApp/wrapper.html' %}
+
+{% load static %}
+
+{% block title %}{{ info.name }} - Контакты{% endblock %}
+
+{% block content %}
+
+    <style>
+        .message{
+            background-color: lawngreen;
+            border: 1px solid green;
+            border-radius: 12px;
+            padding: 10px;
+            color: #fafafa;
+            font-size: 15px
+        }
+    </style>
+
+    <section class="hero-wrap hero-wrap-2" style="background-image: url({% static 'mainApp/images/bg_1.jpg' %});" data-stellar-background-ratio="0.5">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+            <h1 class="mb-2 bread">Контакты</h1>
+            <p class="breadcrumbs"><span class="mr-2"><a href="/">Главаня <i class="ion-ios-arrow-forward"></i></a></span> <span>Контакты <i class="ion-ios-arrow-forward"></i></span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ftco-section ftco-no-pt ftco-no-pb contact-section">
+			<div class="container">
+				<div class="row d-flex align-items-stretch no-gutters">
+					<div class="col-md-6 p-4 p-md-5 order-md-last bg-light">
+						<form method=post>
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" name="name" class="form-control" placeholder="Имя" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="email" class="form-control" placeholder="Email" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="subject" class="form-control" placeholder="Тема" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="" name="message" cols="30" rows="7" class="form-control" placeholder="Сообщение" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Отправить письмо" class="btn btn-primary py-3 px-5">
+                            </div>
+                                {% for message in messages %}
+                                    <div class="message">
+                                        <span>{{message}}</span>
+                                    </div>
+                                {% endfor %}
+                        </form>
+					</div>
+					<div class="col-md-6 d-flex align-items-stretch">
+						<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3043.0192567988147!2d69.60990901525389!3d40.2975313793791!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38b1b3a36d656701%3A0x4503b529f7fbacd2!2z0JjQk9Cd0K3QoSDRgdGC0L7QvNCw0YLQvtC70L7Qs9C40Y8!5e0!3m2!1sru!2s!4v1628461904113!5m2!1sru!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+	<section class="ftco-section contact-section">
+      <div class="container">
+        <div class="row d-flex mb-5 contact-info">
+          <div class="col-md-12 mb-4">
+            <h2 class="h4">Контактная информация</h2>
+          </div>
+          <div class="w-100"></div>
+          <div class="col-md-3 d-flex">
+          	<div class="bg-light d-flex align-self-stretch box p-4">
+	            <p><span>Адрес:</span>
+                <ul> 
+                    <li>{{ info.adress }}</li>
+                    {% for felial in info.felials.all %}
+                        <li>{{ felial.city }}, {{ felial.adress }}</li>
+                    {% endfor %}
+                </ul></p>
+	          </div>
+          </div>
+          <div class="col-md-3 d-flex">
+          	<div class="bg-light d-flex align-self-stretch box p-4">
+	            <p><span>Телефон:</span> 
+                <ul>
+                    <li><a href="tel:{{ info.phone }}">{{ info.phone }}</a></li>
+                    {% for contact in info.extra_contacts.all %}
+                        <li><a href="tel:{{ contact.phone }}">{{ contact.phone }}</a></li>
+                    {% endfor %}
+                </ul></p>
+	          </div>
+          </div>
+          <div class="col-md-3 d-flex">
+          	<div class="bg-light d-flex align-self-stretch box p-4">
+	            <p><span>Email:</span>
+                <ul> 
+                    <li><a href="mailto:{{ info.email }}">{{ info.email }}</a></li>
+                    {% for contact in info.extra_contacts.all %}
+                        <li><a href="mailto:{{ contact.email }}">{{ contact.email }}</a></li>
+                    {% endfor %}
+                </ul></p>
+	          </div>
+          </div>
+          <div class="col-md-3 d-flex">
+          	<div class="bg-light d-flex align-self-stretch box p-4">
+                {% if info.facebook != '' or info.facebook is not None %}
+	                <p><span>Facebook: </span> <a href="{{ info.facebook }}">{{ info.name }}</a></p>
+                {% endif %}
+	          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+{% endblock %}
