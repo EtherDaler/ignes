@@ -1,2 +1,2 @@
 # ignes
- go on to [rogo](http://ignes.tj/)
+ go on to [ignes](http://ignes.tj/)
